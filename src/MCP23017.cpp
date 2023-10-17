@@ -3,17 +3,20 @@
 MCP23017::MCP23017(uint8_t address, TwoWire& bus) {
 	_deviceAddr = address;
 	_bus = &bus;
+	_initComplete = false;
 }
 
 MCP23017::MCP23017(TwoWire& bus) {
 	_deviceAddr = MCP23017_I2C_ADDRESS;
 	_bus = &bus;
+	_initComplete = false;
 }
 
 MCP23017::~MCP23017() {}
 
 void MCP23017::init()
 {
+	initComplete = false;
 	//BANK = 	0 : sequential register addresses
 	//MIRROR = 	0 : use configureInterrupt 
 	//SEQOP = 	1 : sequential operation disabled, address pointer does not increment
@@ -25,6 +28,16 @@ void MCP23017::init()
 	//UNIMPLMENTED 	0 : unimplemented: Read as ‘0’
 
 	writeRegister(MCP23017Register::IOCON, 0b00100000);
+}
+
+void MCP23017::setInitComplete()
+{
+	initComplete = true;
+}
+
+bool MCP23017::getInitStatus()
+{
+	return initComplete;
 }
 
 void MCP23017::begin()

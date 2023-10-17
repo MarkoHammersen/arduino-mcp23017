@@ -83,6 +83,7 @@ class MCP23017
 private:
 	TwoWire* _bus;
 	uint8_t _deviceAddr;
+	bool _initComplete = false;
 public:
 	/**
 	 * Instantiates a new instance to interact with a MCP23017 at the specified address.
@@ -114,6 +115,13 @@ public:
 	 * See "3.2.1 Byte mode and Sequential mode".
 	 */
 	void init();
+
+	/** mark initialisation complete */
+	void setInitComplete();
+
+	/** to get the initalisation status */
+	bool getInitStatus();
+
 	/**
 	 * Controls the pins direction on a whole port at once.
 	 * 
